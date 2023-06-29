@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<!-- displays site properly based on user's device -->
+
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="32x32"
+			href="./assets/images/favicon-32x32.png"
+		/>
+
+		<title>
+			Frontend Mentor | Newsletter sign-up form with success message
+		</title>
+
+		<!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+		<style>
+			.attribution {
+				font-size: 11px;
+				text-align: center;
+			}
+			.attribution a {
+				color: hsl(228, 45%, 44%);
+			}
+		</style>
+
+		<link rel="stylesheet" href="./styles/style.css" />
+	</head>
+	<body>
+		<!-- Sign-up form start -->
+
+		<div class="modal newsletter" id="newsletter">
+			<div id="newsletter--form">
+				<div class="newsletter--title">
+					<h1>Stay updated!</h1>
+				</div>
+
+				<div class="newsletter--subtitle">
+					<p>Join 60,000+ product managers receiving monthly updates on:</p>
+				</div>
+
+				<div class="newsletter--list">
+					<ul>
+						<li>Product discovery and building what matters</li>
+						<li>Measuring to ensure updates are a success</li>
+						<li>And much more!</li>
+					</ul>
+				</div>
+
+				<form id="form">
+					<div class="newsletter--input">
+						<div class="newsletter--label">
+							<label for="email">Email address</label>
+							<p class="error_message hidden" id="error_message">
+								Valid email required
+							</p>
+						</div>
+
+						<input
+							id="email-input"
+							name="email"
+							type="text"
+							placeholder="email@company.com"
+						/>
+					</div>
+
+					<div class="newsletter--button">
+						<button type="submit">Subscribe to monthly newsletter</button>
+					</div>
+				</form>
+			</div>
+			<div class="newsletter--image">
+				<img
+					id="desktop--image"
+					src="./assets/images/illustration-sign-up-desktop.svg"
+					alt=""
+				/>
+				<img
+					id="mobile--image"
+                    class="hide"
+					src="./assets/images/illustration-sign-up-mobile.svg"
+					alt=""
+				/>
+			</div>
+		</div>
+
+		<div class="modal successModal hide" id="successModal">
+			<div>
+				<img
+					class="icon-success"
+					src="./assets/images/icon-success.svg"
+					alt=""
+				/>
+
+				<div class="newsletter--title">
+					<h1>Thanks for subscribing!</h1>
+				</div>
+				<p>
+					A confirmation email has been sent to <b>ash@loremcompany.com</b>.
+					Please open it and click the button inside to confirm your
+					subscription
+				</p>
+				<div class="successModal--button">
+					<button type="submit" id="dismissButton">Dismiss message</button>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			function validateEmail(mail) {
+				const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+				return emailRegex.test(mail);
+			}
+
+			const formElement = document.getElementById("form");
+			const emailElement = document.getElementById("email-input");
+			const successModal = document.getElementById("successModal");
+			const newsletter = document.getElementById("newsletter");
+			const error_message = document.getElementById("error_message");
+
+			const dismissButton = document.getElementById("dismissButton");
+
+			formElement.addEventListener("submit", (e) => {
+				e.preventDefault();
+
+				const formData = new FormData(formElement);
+				const email = formData.get("email");
+
+				if (validateEmail(email)) {
+					successModal.classList.remove("hide");
+					newsletter.classList.add("hide");
+					emailElement.value = "";
+					emailElement.classList.remove("newsletter--input__error");
+					error_message.classList.add("hidden");
+				} else {
+					emailElement.classList.add("newsletter--input__error");
+					error_message.classList.remove("hidden");
+				}
+			});
+
+			dismissButton.addEventListener("click", (e) => {
+				successModal.classList.add("hide");
+				newsletter.classList.remove("hide");
+			});
+		</script>
+	</body>
+</html>
